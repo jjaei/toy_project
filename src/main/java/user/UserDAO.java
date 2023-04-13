@@ -39,4 +39,20 @@ public class UserDAO {
 		} catch(Exception e) {e.printStackTrace();}
 		return -2;   // 데이터베이스 오류를 의미함.
 	}
+	
+	public int join(User user) {
+		// INSERT 문장을 실행할 경우 반드시 0 이상의 숫자가 반환됨.
+		String SQL = "INSERT INTO USER VALUES(?, ?, ?, ?, ?)";
+		try {
+			pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, user.getUserID());
+			pstmt.setString(2, user.getUserPassword());
+			pstmt.setString(3, user.getUserName());
+			pstmt.setString(4, user.getUserGender());
+			pstmt.setString(5, user.getUserEmail());
+			return pstmt.executeUpdate();
+		} catch(Exception e) {e.printStackTrace();}
+		
+		return -1;  // 데이터 오류시 -1 반환.
+	}
 }
