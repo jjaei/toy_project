@@ -19,6 +19,17 @@
 </head>
 <body>
 	<%
+		String userID = null;
+		if(session.getAttribute("userID") != null) {
+			userID = (String) session.getAttribute("userID");
+		}
+		if(userID != null) {  // 이미 로그인이 된 회원은 다시 로그인할 수 없도록 막아주는 것.
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('이미 로그인이 되어있는 상태입니다.')");
+			script.println("location.href = 'main.jsp'");
+			script.println("</script>");
+		}
 		if(user.getUserID() == null || user.getUserPassword() == null || user.getUserName() == null
 		 || user.getUserGender() == null || user.getUserEmail() == null ){
 			PrintWriter script = response.getWriter();
@@ -37,6 +48,7 @@
 				// 이전 페이지로 사용자를 돌려보냄. (로그인 페이지)
 				script.println("</script>");
 			} else {
+				session.setAttribute("userID", user.getUserID());
 				PrintWriter script = response.getWriter();
 				script.println("<script>");
 				script.println("location.href = 'main.jsp'");  
