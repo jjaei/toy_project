@@ -36,7 +36,7 @@
 				<li class="dropdown">
 					<a href="#" class=dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-haspopup="true"
-						aria-expanded="false">접속하기<sapn class="caret"></sapn></a>
+						aria-expanded="false">접속하기<span class="caret"></span></a>
 						<!-- 임시주소링크 #을 기재함. -->
 					<ul class="dropdown-menu">
 						<li class="active"><a href="login.jsp">로그인</a></li>
