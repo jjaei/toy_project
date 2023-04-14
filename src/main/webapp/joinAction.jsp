@@ -23,6 +23,7 @@
 		if(session.getAttribute("userID") != null) {
 			userID = (String) session.getAttribute("userID");
 		}
+		
 		if(userID != null) {  // 이미 로그인이 된 회원은 다시 로그인할 수 없도록 막아주는 것.
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
