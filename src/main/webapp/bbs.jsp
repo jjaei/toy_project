@@ -76,14 +76,14 @@
 	
 	<div class="container">
 		<div class="row">
-			<table class="table table-striped" style-"text-align: center; border: 1px solid #dddddd">
+			<table class="table table-striped" style="text-align: center; border: 1px solid #dddddd">
 			<!-- 게시판에 글 목록들이 홀수와 짝수가 번갈아가며 색상이 변경됨. -->
 				<thead>
 					<tr>
-						<th style="background-color: #eeeeeee; text-align: center;">번호</th>
-						<th style="background-color: #eeeeeee; text-align: center;">제목</th>
-						<th style="background-color: #eeeeeee; text-align: center;">작성자</th>
-						<th style="background-color: #eeeeeee; text-align: center;">작성일</th>
+						<th style="background-color: #eeeeee; text-align: center;">번호</th>
+						<th style="background-color: #eeeeee; text-align: center;">제목</th>
+						<th style="background-color: #eeeeee; text-align: center;">작성자</th>
+						<th style="background-color: #eeeeee; text-align: center;">작성일</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -95,7 +95,7 @@
 					</tr>
 				</tbody>
 			</table> 
-			<a href="write.jsp" class="btn btn-primary pull right">글쓰기</a>
+			<a href="write.jsp" class="btn btn-primary pull-right">글쓰기</a>
 			
 		</div>
 	</div>
