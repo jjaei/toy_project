@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class BbsDAO {
 
@@ -65,5 +66,43 @@ public class BbsDAO {
 			
 		}catch(Exception e) {e.printStackTrace();}
 		return -1;  // 데이터 베이스 오류를 알려줌.
+	}
+	
+	public ArrayList<Bbs> getList(int pageNumber) { // ArrayList를 이용하여 Bbs를 담아낼 수 있도록 함.
+		String SQL = "SELECT * FROM bbs WHERE bbsID < ? AND bbsAvailable = 1 ORDER BY bbsID DESC LIMIT 10";
+		// bbsID가 특정한 숫자보다 작을 때, 삭젣가 되지 않아 Avilable이 1인 글만 가져올 수 있도록, bbsID로 내림차순, 10개까지만 가져오기
+		ArrayList<Bbs> list = new ArrayList<Bbs>();
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, getNext() - (pageNumber - 1) * 10);
+			// 작성될 번호의 글 번호에서부터 계산
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				Bbs bbs = new Bbs();
+				bbs.setBbsID(rs.getInt(1));
+				bbs.setBbsTitle(rs.getString(2));
+				bbs.setUserID(rs.getString(3));
+				bbs.setBbsDate(rs.getString(4));
+				bbs.setBbsContent(rs.getString(5));
+				bbs.setBbsAvailable(rs.getInt(6));
+				list.add(bbs);
+			}			
+		}catch(Exception e) {e.printStackTrace();}
+		return list; 
+	}
+	
+	public boolean nextPage(int pageNumber) {
+		// 게시글이 10개라면 다음페이지라는 버튼이 없어야 함. 
+		// 페이징 처리
+		
+		String SQL = "SELECT * FROM bbs WHERE bbsID < ? AND bbsAvailable = 1 ORDER BY bbsID DESC LIMIT 10";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, getNext() - (pageNumber - 1) * 10);
+			if(rs.next()) {
+				return true; 
+			}			
+		}catch(Exception e) {e.printStackTrace();}
+		return false; 
 	}
 }
