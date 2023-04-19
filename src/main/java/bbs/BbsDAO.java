@@ -70,7 +70,7 @@ public class BbsDAO {
 	
 	public ArrayList<Bbs> getList(int pageNumber) { // ArrayList를 이용하여 Bbs를 담아낼 수 있도록 함.
 		String SQL = "SELECT * FROM bbs WHERE bbsID < ? AND bbsAvailable = 1 ORDER BY bbsID DESC LIMIT 10";
-		// bbsID가 특정한 숫자보다 작을 때, 삭젣가 되지 않아 Avilable이 1인 글만 가져올 수 있도록, bbsID로 내림차순, 10개까지만 가져오기
+		// bbsID가 특정한 숫자보다 작을 때, 삭젣가 되지 않아 Available이 1인 글만 가져올 수 있도록, bbsID로 내림차순, 10개까지만 가져오기
 		ArrayList<Bbs> list = new ArrayList<Bbs>();
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
@@ -95,10 +95,11 @@ public class BbsDAO {
 		// 게시글이 10개라면 다음페이지라는 버튼이 없어야 함. 
 		// 페이징 처리
 		
-		String SQL = "SELECT * FROM bbs WHERE bbsID < ? AND bbsAvailable = 1 ORDER BY bbsID DESC LIMIT 10";
+		String SQL = "SELECT * FROM bbs WHERE bbsID < ? AND bbsAvailable = 1";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, getNext() - (pageNumber - 1) * 10);
+			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				return true; 
 			}			
