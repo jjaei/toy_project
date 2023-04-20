@@ -108,7 +108,8 @@
 					<tr> <!-- 게시글이 실제로 출력될 부분 -->
 						<td><%=list.get(i).getBbsID() %></td>
 						<td><a href="view.jsp?bbsID=<%=list.get(i).getBbsID() %>">
-						<%=list.get(i).getBbsTitle() %></a></td>
+						<%=list.get(i).getBbsTitle().replaceAll(" ", "&nbsp;").replaceAll("<","&lt;")
+								.replaceAll(">","&gt;").replaceAll("\n","<br>") %></a></td>
 						<!--  제목을 눌렀을 때는 해당 게시글의 내용을 보여준다. -->
 						<td><%=list.get(i).getUserID() %></td>
 						<td><%=list.get(i).getBbsDate().substring(0, 11) 
