@@ -52,7 +52,7 @@ public class BbsDAO {
 	}
 	
 	public int write(String bbsTitle, String userID, String bbsContent) {
-		String SQL = "INSERT INTO bbs VALUES(?, ?, ?, ?, ?, ?);";
+		String SQL = "INSERT INTO bbs VALUES(?, ?, ?, ?, ?, ?)";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, getNext());  // 다음에 쓰여야 할 게시글 번호
@@ -70,7 +70,7 @@ public class BbsDAO {
 	
 	public ArrayList<Bbs> getList(int pageNumber) { // ArrayList를 이용하여 Bbs를 담아낼 수 있도록 함.
 		String SQL = "SELECT * FROM bbs WHERE bbsID < ? AND bbsAvailable = 1 ORDER BY bbsID DESC LIMIT 10";
-		// bbsID가 특정한 숫자보다 작을 때, 삭젣가 되지 않아 Available이 1인 글만 가져올 수 있도록, bbsID로 내림차순, 10개까지만 가져오기
+		// bbsID가 특정한 숫자보다 작을 때, 삭제가 되지 않아 Available이 1인 글만 가져올 수 있도록, bbsID로 내림차순, 10개까지만 가져오기
 		ArrayList<Bbs> list = new ArrayList<Bbs>();
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
@@ -109,8 +109,7 @@ public class BbsDAO {
 	
 	// 하나의 글 내용을 불러올 수 있는 함수 추가
 	public Bbs getBbs(int bbsID) {
-		String SQL = "SELECT * FROM bbs WHERE bbsID = ?";
-		// bbsID가 특정한 숫자인 경우 어떠한 행위를 진행할 수 있도록 해줌.
+		String SQL = "SELECT * FROM bbs WHERE bbsID = ?"; // bbsID가 특정한 숫자인 경우 어떠한 행위를 진행할 수 있도록 해줌.
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, bbsID);
@@ -127,5 +126,27 @@ public class BbsDAO {
 			}			
 		}catch(Exception e) {e.printStackTrace();}
 		return null;  // 해당 글이 존재하지 않는 경우 null 반환
+	}
+	
+	public int update(int bbsID, String bbsTitle, String bbsContent) {  // write와 비슷한 성격을 가지고 있음.
+		String SQL = "UPDATE bbs SET bbsTitle = ?, bbsContent = ? WHERE bbsID = ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, bbsTitle); 
+			pstmt.setString(2, bbsContent); 
+			pstmt.setInt(3, bbsID); 		
+			return pstmt.executeUpdate();	
+		}catch(Exception e) {e.printStackTrace();}
+		return -1;  // 데이터 베이스 오류를 알려줌.
+	}
+	
+	public int delete(int bbsID) {
+		String SQL = "UPDATE bbs SET bbsAvailable = 0 WHERE bbsID = ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, bbsID); 
+			return pstmt.executeUpdate();	
+		}catch(Exception e) {e.printStackTrace();}
+		return -1;  // 데이터 베이스 오류를 알려줌.
 	}
 }
